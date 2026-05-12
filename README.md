@@ -1,41 +1,76 @@
 # @vionsec/cli
 
-> 🚧 **Pre-release placeholder.** This package is reserved while the real release is being built. Do not install yet.
+> First public release — `0.1.0`. Beta. Bug reports → https://github.com/vionsec/vion-cli/issues
 
-VION Security CLI — secure-by-default installer and orchestrator for the VION Security agent.
-
-## What this will be
-
-A first-class command-line tool to install, authenticate, and operate the VION Security agent across:
-
-- **Claude Code** (Anthropic)
-- **Blackbox AI**
-- **OpenAI Codex CLI**
-- Generic terminal (Bash / PowerShell / Zsh)
-
-It replaces the legacy `curl | bash` installer with:
+VION Security CLI — secure-by-default installer and orchestrator for the VION
+Security agent across Claude Code, Blackbox AI, OpenAI Codex, and generic terminals.
 
 ```bash
-npm install -g @vionsec/cli   # signed package, integrity-checked
-vion login                    # OAuth/PKCE — token never touches the shell
-vion install --cli=claude     # install agent files for the chosen CLI
-vion watch start              # background fix-watcher
+npm install -g @vionsec/cli
+vion login                       # OAuth/PKCE — token never touches the shell
+vion install --cli=claude        # writes agent files for the chosen CLI
+vion watch start                 # background fix-watcher (auto-applies approvals)
 ```
 
 ## Why a CLI
 
-The current installer flow has well-known security issues that contradict VION's value proposition:
+The legacy `curl | bash` installer combined four well-known anti-patterns that
+contradict VION's value proposition:
 
-- `curl | bash` enables remote code execution.
-- API tokens passed via `-H` leak to shell history, `ps`, telemetry.
-- `--dangerously-skip-permissions` bypasses Claude Code safety controls.
-- HTTP without TLS allows local MITM.
+| Anti-pattern | Risk | `@vionsec/cli` fixes by |
+|---|---|---|
+| `curl ... \| bash` | Remote code execution | npm package with integrity check |
+| Bearer token in `-H` | Token leaks to `~/.bash_history`, `ps`, terminal telemetry | OAuth/PKCE — token only ever lives in the CLI process and `~/.vion/credentials.json` (chmod 600) |
+| `claude --dangerously-skip-permissions` | Bypasses Claude Code safety controls | The CLI no longer auto-launches with that flag in onboarding |
+| `http://` without TLS | Local MITM | Default API URL is HTTPS; HTTP only allowed for localhost dev |
 
-`@vionsec/cli` fixes all four by design.
+## Commands
 
-## Status
+### `vion login`
+Browser-based OAuth flow with PKCE (RFC 7636). Generates a fresh API key
+server-side; any previous key is revoked.
 
-`0.0.1` — name reservation only. The real public release will be `0.1.0+`. Track progress at https://vionsec.com.br.
+```bash
+vion login
+vion login --api-url http://localhost:3001     # dev
+VION_API_URL=https://staging.vionsec.com.br vion login
+```
+
+### `vion install --cli=<name>`
+Generates the orchestration files for one of:
+
+- `claude` — writes `~/.claude/commands/vion/*.md`
+- `blackbox` — writes `.blackbox/skills/vion/SKILL.md` (cwd-relative)
+- `codex` — writes `~/.codex/prompts/vion/*.md`
+- `terminal` — same as `claude` (generic Claude Code via terminal)
+
+### `vion logout`
+Removes `~/.vion/credentials.json`. The server-side key remains valid until you
+log in again (which generates a new one and revokes the old).
+
+### `vion status`
+Show login state, plan, and key fingerprint.
+
+### `vion watch start | stop | status`
+Manages the background fix-watcher daemon — polls for approved fixes and
+applies them through the local Claude Code instance.
+
+## Storage
+
+```
+~/.vion/credentials.json    # api_key + profile + api_url    (chmod 600 on Unix)
+~/.vion/fix-watcher.mjs     # watcher script (installed by vion install)
+~/.vion/fix-watcher.pid     # daemon pid (when running)
+~/.vion/fix-watcher.log     # daemon stdout/stderr
+```
+
+## Requirements
+
+- Node.js ≥ 18
+- A VION account at [vionsec.com.br](https://vionsec.com.br)
+- For `vion install --cli=claude`: Claude Code installed
+- For `--cli=blackbox`: Blackbox CLI installed
+- For `--cli=codex`: OpenAI Codex CLI installed
 
 ## License
 

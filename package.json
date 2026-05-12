@@ -1,7 +1,7 @@
 {
   "name": "@vionsec/cli",
-  "version": "0.0.1",
-  "description": "VION Security CLI — secure-by-default installer for the VION agent across Claude Code, Blackbox AI, OpenAI Codex, and terminal. Pre-release placeholder.",
+  "version": "0.5.0",
+  "description": "VION Security CLI — secure-by-default installer for the VION agent across Claude Code, Blackbox AI, OpenAI Codex, and terminal.",
   "license": "Apache-2.0",
   "author": "VION Security <contato@vionsec.com.br>",
   "homepage": "https://vionsec.com.br",
@@ -23,6 +23,10 @@
     "ai-security",
     "supply-chain"
   ],
+  "type": "module",
+  "bin": {
+    "vion": "bin/vion.js"
+  },
   "engines": {
     "node": ">=18"
   },
@@ -30,7 +34,17 @@
     "access": "public"
   },
   "files": [
+    "bin/",
+    "src/",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "dependencies": {
+    "commander": "^12.1.0",
+    "open": "^10.1.0"
+  },
+  "scripts": {
+    "start": "node bin/vion.js",
+    "test:smoke": "node bin/vion.js --version && node bin/vion.js --help"
+  }
 }
