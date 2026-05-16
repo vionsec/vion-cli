@@ -4,7 +4,7 @@ import { loadCredentials, getMachineId } from '../lib/storage.js'
 import { error } from '../lib/ui.js'
 
 // Embedded secret — matches VION_CLI_HMAC_SECRET on the server.
-const HMAC_SECRET = 'a5c2c74ada66a133a2f531f5f0b1625b07a2c92a13a0db56609cc3ce74b5ff37'
+const HMAC_SECRET = 'ddc76fe0d4aec606a28ab83342de180110b5b7ea77c2893eeba64797078a88f8'
 
 function buildSigHeader() {
   const ts = Math.floor(Date.now() / 1000).toString()
@@ -51,6 +51,7 @@ export async function callCommand(phase, opts = {}) {
   }
 
   const text = await res.text()
-  process.stdout.write(text)
-  if (!res.ok) process.exit(1)
+  const exitCode = res.ok ? 0 : 1
+  // Flush stdout before exit to prevent libuv assertion crash on Windows.
+  process.stdout.write(text, () => process.exit(exitCode))
 }
