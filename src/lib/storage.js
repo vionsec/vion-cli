@@ -1,4 +1,5 @@
-import { homedir, platform } from 'node:os'
+import crypto from 'node:crypto'
+import { homedir, platform, hostname } from 'node:os'
 import { join, dirname } from 'node:path'
 import {
   mkdirSync,
@@ -11,6 +12,21 @@ import {
 
 const VION_DIR = join(homedir(), '.vion')
 export const CREDENTIALS_PATH = join(VION_DIR, 'credentials.json')
+const MACHINE_ID_PATH = join(VION_DIR, 'machine-id')
+
+export function getMachineId() {
+  if (existsSync(MACHINE_ID_PATH)) {
+    return readFileSync(MACHINE_ID_PATH, 'utf8').trim()
+  }
+  const id = crypto.randomUUID()
+  ensureDir(MACHINE_ID_PATH)
+  writeFileSync(MACHINE_ID_PATH, id, { encoding: 'utf8' })
+  return id
+}
+
+export function getMachineLabel() {
+  return `${hostname()} (${platform()})`
+}
 export const WATCHER_PID_PATH = join(VION_DIR, 'fix-watcher.pid')
 export const WATCHER_LOG_PATH = join(VION_DIR, 'fix-watcher.log')
 export const WATCHER_SCRIPT_PATH = join(VION_DIR, 'fix-watcher.mjs')

@@ -1,5 +1,6 @@
 import crypto from 'node:crypto'
-import { loadCredentials } from '../lib/storage.js'
+import { hostname, platform } from 'node:os'
+import { loadCredentials, getMachineId } from '../lib/storage.js'
 import { error } from '../lib/ui.js'
 
 // Embedded secret — matches VION_CLI_HMAC_SECRET on the server.
@@ -37,6 +38,9 @@ export async function callCommand(phase, opts = {}) {
         Authorization: `Bearer ${creds.api_key}`,
         'X-Vion-Sig': buildSigHeader(),
         'X-Vion-Agent': cli,
+        'X-Vion-Machine': getMachineId(),
+        'X-Vion-Hostname': hostname(),
+        'X-Vion-Platform': platform(),
         'User-Agent': '@vionsec/cli',
         Accept: 'application/json, text/markdown, */*',
       },
