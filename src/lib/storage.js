@@ -91,18 +91,15 @@ export function clearCredentials() {
  */
 export function saveCurlrc(apiKey, cli = 'claude') {
   ensureDir(CURLRC_PATH)
-  // - X-Vion-Cli: 1   → flag legacy. Backend usa pra skip do loader-hash
-  //                     integrity check (so faz sentido pro velho instalador
-  //                     curl|bash). Aqui SEMPRE '1' — nao confundir com nome.
-  // - X-Vion-Agent: X → nome do CLI (claude|blackbox|codex|cursor|terminal).
-  //                     Backend usa pra renderizar prompts no dialeto certo:
-  //                     ~/.vion/curlrc vs %USERPROFILE%/.vion/curlrc,
-  //                     Bash vs run_shell_command, etc.
+  // X-Vion-Agent: nome do CLI (claude|blackbox|codex|cursor|terminal).
+  // Backend usa pra renderizar prompts no dialeto certo.
+  // Nota: phase-fetching usa `vion call` (HMAC dinâmico). Este curlrc é
+  // mantido apenas para chamadas de coleta (POST /api/analyze, etc.) onde
+  // o agente precisa de curl direto sem expor o token na UI.
   const body = `# VION Security CLI — headers for slash-command curl calls.
 # Generated automatically. Do not edit by hand.
 # Permissions: 0600 (Unix). Treat as a secret.
 header = "Authorization: Bearer ${apiKey}"
-header = "X-Vion-Cli: 1"
 header = "X-Vion-Agent: ${cli}"
 `
   writeFileSync(CURLRC_PATH, body, { encoding: 'utf8' })

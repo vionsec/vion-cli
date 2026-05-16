@@ -9,6 +9,7 @@ import { installCommand } from '../src/commands/install.js'
 import { logoutCommand } from '../src/commands/logout.js'
 import { statusCommand } from '../src/commands/status.js'
 import { watchCommand } from '../src/commands/watch.js'
+import { callCommand } from '../src/commands/call.js'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const pkg = JSON.parse(readFileSync(join(here, '..', 'package.json'), 'utf8'))
@@ -49,6 +50,12 @@ program
   .command('status')
   .description('Show login status, plan, and installed CLIs.')
   .action(statusCommand)
+
+program
+  .command('call <phase>')
+  .description('Call a VION phase on the server and print the response (used by agent slash commands).')
+  .option('--cli <name>', 'Target CLI dialect (claude | blackbox | codex | terminal).', 'claude')
+  .action(callCommand)
 
 const watch = program.command('watch').description('Manage the fix-watcher daemon.')
 
