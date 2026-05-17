@@ -1,24 +1,13 @@
-import crypto from 'node:crypto'
+import { createHash } from 'node:crypto'
 import { hostname, platform } from 'node:os'
 import { loadCredentials, getMachineId } from '../lib/storage.js'
 import { error } from '../lib/ui.js'
 
-// Embedded secret — matches VION_CLI_HMAC_SECRET on the server.
-const HMAC_SECRET = 'ddc76fe0d4aec606a28ab83342de180110b5b7ea77c2893eeba64797078a88f8'
-
-function buildSigHeader() {
-  const ts = Math.floor(Date.now() / 1000).toString()
-  const hmac = crypto.createHmac('sha256', HMAC_SECRET).update(ts, 'utf8').digest('hex')
-  return `${hmac}:${ts}`
-}
-
 /**
  * `vion call <phase> [--cli <name>]`
  *
- * Fetches /api/agent-phase?phase=<phase>&cli=<cli> with a fresh HMAC-SHA256
- * signature and prints the response body to stdout. Used by agent slash
- * commands instead of raw `curl -K curlrc` so the API key never appears in
- * the shell command and the sig is always fresh (30s window).
+ * Fetches /api/agent-phase and prints the response to stdout.
+ * Verifies X-Vion-Prompt-Hash (SHA-256) to detect tampering in transit.
  */
 export async function callCommand(phase, opts = {}) {
   const creds = loadCredentials()
@@ -36,7 +25,6 @@ export async function callCommand(phase, opts = {}) {
     res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${creds.api_key}`,
-        'X-Vion-Sig': buildSigHeader(),
         'X-Vion-Agent': cli,
         'X-Vion-Machine': getMachineId(),
         'X-Vion-Hostname': hostname(),
@@ -51,13 +39,25 @@ export async function callCommand(phase, opts = {}) {
   }
 
   const text = await res.text()
+
+  // Verify prompt integrity: server sends SHA-256 of the content it produced.
+  // Mismatch = response was modified in transit (MitM or proxy tampering).
+  const serverHash = res.headers.get('x-vion-prompt-hash')
+  if (serverHash && res.ok) {
+    const localHash = createHash('sha256').update(text, 'utf8').digest('hex')
+    if (localHash !== serverHash) {
+      error(
+        'Integridade do prompt falhou — o conteúdo foi modificado em trânsito. Abortando.',
+      )
+      process.exit(2)
+    }
+  }
+
   const exitCode = res.ok ? 0 : 1
   process.stdout.write(text, () => {
-    // Avoid calling process.exit() immediately: on Windows (Node 22+) the
-    // fetch connection pool still has libuv async handles being torn down,
-    // and a synchronous exit triggers UV_HANDLE_CLOSING assertion in
-    // src\win\async.c. Setting exitCode + unref'd timeout lets the event
-    // loop drain naturally; the timeout is a safety net if handles stall.
+    // Setting exitCode instead of calling exit() immediately prevents the
+    // libuv UV_HANDLE_CLOSING assertion on Windows (Node 22+) caused by
+    // fetch connection pool handles still tearing down on synchronous exit.
     process.exitCode = exitCode
     setTimeout(() => process.exit(exitCode), 500).unref()
   })

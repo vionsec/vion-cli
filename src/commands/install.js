@@ -8,24 +8,10 @@ import {
 import { readFileSync, writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 import { createInterface } from 'node:readline/promises'
-import { fileURLToPath } from 'node:url'
-import { dirname, join } from 'node:path'
 import { color, info, success, warn, error, step, header, blank, printBanner } from '../lib/ui.js'
 import { SUPPORTED_CLIS } from '../config.js'
 import { startWatcher } from './watch.js'
 import { bashAvailable } from '../lib/system.js'
-
-// Absolute path to bin/vion.js — used to patch templates so `vion call`
-// works regardless of whether the npm global bin is in the shell PATH.
-const _here = dirname(fileURLToPath(import.meta.url))
-const VION_BIN_JS = join(_here, '..', '..', 'bin', 'vion.js')
-
-function resolveVionInvocation() {
-  // Forward-slashes work in git bash on Windows and on POSIX systems alike.
-  const node = process.execPath.replace(/\\/g, '/')
-  const bin = VION_BIN_JS.replace(/\\/g, '/')
-  return `"${node}" "${bin}"`
-}
 
 const CLI_MENU = [
   { id: 'claude', label: 'Claude Code' },
@@ -226,18 +212,18 @@ export async function installCommand(opts) {
     process.exit(1)
   }
 
-  // Patch `vion call` → absolute `node "bin/vion.js" call` in every .md
-  // template so the command works even when the npm global bin dir is not
-  // in the shell PATH (common in git bash on Windows and some CI envs).
-  const vionInvocation = resolveVionInvocation()
+  // Patch `vion call` → `npx @vionsec/cli call` in every .md template.
+  // npx resolves the binary via the npm registry cache — works even when
+  // the npm global bin dir is not in the shell PATH (git bash on Windows,
+  // CI envs). More resilient than hardcoding node/bin absolute paths.
   for (const { abs, logical } of writtenPaths) {
     if (!logical.endsWith('.md')) continue
     try {
       const raw = readFileSync(abs, 'utf8')
-      const patched = raw.replaceAll('`vion call ', `\`${vionInvocation} call `)
+      const patched = raw.replaceAll('`vion call ', '`npx --yes @vionsec/cli call ')
       if (patched !== raw) writeFileSync(abs, patched)
     } catch {
-      // non-fatal — skip files that can't be patched
+      // non-fatal
     }
   }
 
