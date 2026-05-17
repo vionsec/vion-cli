@@ -72,6 +72,12 @@ async function maybeLaunchCli(cli) {
     return
   }
 
+  // Sem TTY = já dentro de um agente (Claude Code via !, CI, etc.) — não spawnar.
+  if (!process.stdin.isTTY) {
+    info(color.dim('Já dentro de um agente — digite /vion para começar.'))
+    return
+  }
+
   const wantStart = await promptYesNo('Iniciar agora?', true)
   if (!wantStart) {
     blank()
