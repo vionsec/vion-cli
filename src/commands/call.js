@@ -52,6 +52,13 @@ export async function callCommand(phase, opts = {}) {
 
   const text = await res.text()
   const exitCode = res.ok ? 0 : 1
-  // Flush stdout before exit to prevent libuv assertion crash on Windows.
-  process.stdout.write(text, () => process.exit(exitCode))
+  process.stdout.write(text, () => {
+    // Avoid calling process.exit() immediately: on Windows (Node 22+) the
+    // fetch connection pool still has libuv async handles being torn down,
+    // and a synchronous exit triggers UV_HANDLE_CLOSING assertion in
+    // src\win\async.c. Setting exitCode + unref'd timeout lets the event
+    // loop drain naturally; the timeout is a safety net if handles stall.
+    process.exitCode = exitCode
+    setTimeout(() => process.exit(exitCode), 500).unref()
+  })
 }
