@@ -5,7 +5,7 @@ import {
   writeFileFromBase64,
   WATCHER_SCRIPT_PATH,
 } from '../lib/storage.js'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 import { spawn } from 'node:child_process'
 import { createInterface } from 'node:readline/promises'
 import { color, info, success, warn, error, step, header, blank, printBanner } from '../lib/ui.js'
@@ -212,20 +212,12 @@ export async function installCommand(opts) {
     process.exit(1)
   }
 
-  // Patch `vion call` → `npx @vionsec/cli call` in every .md template.
-  // npx resolves the binary via the npm registry cache — works even when
-  // the npm global bin dir is not in the shell PATH (git bash on Windows,
-  // CI envs). More resilient than hardcoding node/bin absolute paths.
-  for (const { abs, logical } of writtenPaths) {
-    if (!logical.endsWith('.md')) continue
-    try {
-      const raw = readFileSync(abs, 'utf8')
-      const patched = raw.replaceAll('`vion call ', '`npx --yes @vionsec/cli call ')
-      if (patched !== raw) writeFileSync(abs, patched)
-    } catch {
-      // non-fatal
-    }
-  }
+  // NÃO reescrever `vion call` → `npx --yes @vionsec/cli call`.
+  // O rewrite (unpinned npx) resolvia versões STALE do registro/cache
+  // (observado: 0.5.0 enquanto latest era 0.6.6) e quebrava TODO slash
+  // command silenciosamente. O servidor já emite `vion call`, e este
+  // install roda pelo próprio binário global `vion` — logo ele existe e
+  // está no PATH por construção. Mantemos o `vion call` do servidor.
 
   // Fix-watcher script (always installed under ~/.vion/fix-watcher.mjs).
   if (payload.fix_watcher?.content_b64) {
