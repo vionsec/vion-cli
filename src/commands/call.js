@@ -40,25 +40,45 @@ export async function callCommand(phase, opts = {}) {
 
   const text = await res.text()
 
-  // Verify prompt integrity: server sends SHA-256 of the content it produced.
-  // Mismatch = response was modified in transit (MitM or proxy tampering).
+  // Deferred exit: setting exitCode + unref'd timeout (instead of an
+  // immediate process.exit) avoids the libuv UV_HANDLE_CLOSING assertion
+  // on Windows (Node 22+) when fetch's connection-pool handles are still
+  // tearing down. Used by BOTH the success and the abort paths.
+  const safeExit = (code) => {
+    process.exitCode = code
+    setTimeout(() => process.exit(code), 500).unref()
+  }
+
+  // Verify prompt integrity: server sends SHA-256 of the ORIGINAL prompt
+  // content (X-Vion-Prompt-Hash, computed over agent_prompts.content —
+  // no watermark, no CLI render). The served body, however, is always
+  // prefixed by the server's watermark block:
+  //
+  //   <!-- VION Cloud // ... -->
+  //   <!-- user:... -->
+  //   <!-- vion-trace:XXXX -->
+  //   <blank line>
+  //   <prompt content>
+  //
+  // So we must strip that leading comment block before hashing, otherwise
+  // SHA-256(body) can NEVER equal SHA-256(content) and EVERY call aborts
+  // (regression introduced with the hash check in 0.6.5). For cli=claude
+  // the server render is identity, so stripped body === original content.
+  // (Non-claude CLIs additionally re-render content server-side; hashing
+  // there is a separate known protocol gap, out of scope for this fix.)
   const serverHash = res.headers.get('x-vion-prompt-hash')
   if (serverHash && res.ok) {
-    const localHash = createHash('sha256').update(text, 'utf8').digest('hex')
+    const wm = text.match(/^(?:<!--[^\n]*-->\r?\n){1,6}\r?\n/)
+    const body = wm ? text.slice(wm[0].length) : text
+    const localHash = createHash('sha256').update(body, 'utf8').digest('hex')
     if (localHash !== serverHash) {
       error(
         'Integridade do prompt falhou — o conteúdo foi modificado em trânsito. Abortando.',
       )
-      process.exit(2)
+      return safeExit(2)
     }
   }
 
   const exitCode = res.ok ? 0 : 1
-  process.stdout.write(text, () => {
-    // Setting exitCode instead of calling exit() immediately prevents the
-    // libuv UV_HANDLE_CLOSING assertion on Windows (Node 22+) caused by
-    // fetch connection pool handles still tearing down on synchronous exit.
-    process.exitCode = exitCode
-    setTimeout(() => process.exit(exitCode), 500).unref()
-  })
+  process.stdout.write(text, () => safeExit(exitCode))
 }
