@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { hostname, platform } from 'node:os'
 import { loadCredentials, getMachineId } from '../lib/storage.js'
 import { error } from '../lib/ui.js'
+import { startWatcher } from './watch.js'
 
 /**
  * `vion call <phase> [--cli <name>]`
@@ -14,6 +15,18 @@ export async function callCommand(phase, opts = {}) {
   if (!creds?.api_key) {
     error('Não autenticado. Rode `vion login` primeiro.')
     process.exit(1)
+  }
+
+  // Self-heal do fix-watcher: o daemon é detached e morre em reboot/logout, então
+  // correções aprovadas no app deixavam de ser aplicadas até o próximo `vion install`.
+  // Qualquer comando /vion:* agora revive o watcher (startWatcher é idempotente:
+  // no-op se já vivo, silencioso se o script ainda não foi instalado).
+  // Best-effort e SEM stdout — o agente IA parseia a saída deste comando, então
+  // nada aqui pode escrever no stdout nem lançar.
+  try {
+    startWatcher()
+  } catch {
+    // watcher é bônus — nunca pode atrapalhar a execução da fase
   }
 
   const cli = opts.cli || 'claude'
