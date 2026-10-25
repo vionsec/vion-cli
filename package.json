@@ -1,0 +1,64 @@
+{
+  "name": "@vionsec/cli",
+  "version": "0.7.0",
+  "description": "VION — Vulnerable Investigator Orchestrator Network. Agente de seguranca open source, local-first, multiagente para Claude Code.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vionsec/vion-cli.git"
+  },
+  "homepage": "https://github.com/vionsec/vion-cli#readme",
+  "bugs": {
+    "url": "https://github.com/vionsec/vion-cli/issues"
+  },
+  "type": "module",
+  "bin": {
+    "vion": "bin/vion.js",
+    "vionsec": "bin/vion.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "!src/**/__tests__/",
+    "assets/",
+    "dist/ui/",
+    "docs/",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "keywords": [
+    "security",
+    "audit",
+    "pentest",
+    "owasp",
+    "claude-code",
+    "multi-agent",
+    "local-first",
+    "vion"
+  ],
+  "scripts": {
+    "dev:ui": "vite --config ui/vite.config.js",
+    "build:ui": "vite build --config ui/vite.config.js",
+    "gen:docs": "node scripts/gen-docs.js",
+    "test": "vitest run",
+    "prepublishOnly": "npm run gen:docs && npm run build:ui && npm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
