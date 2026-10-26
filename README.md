@@ -51,7 +51,7 @@ Tudo roda na sua máquina. Auditorias, evidências e relatórios ficam num banco
 
 **Requisitos**
 
-| | Versão |
+| Requisito | Versão |
 |---|---|
 | [Node.js](https://nodejs.org) | 22.13 ou superior |
 | [Claude Code](https://docs.claude.com/claude-code) | instalado e autenticado |
