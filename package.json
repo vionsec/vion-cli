@@ -7,9 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/vionsec/vion-cli.git"
   },
-  "homepage": "https://github.com/vionsec/vion-cli#readme",
+  "homepage": "https://github.com/jvncodez/VionSecurityAgent#readme",
   "bugs": {
-    "url": "https://github.com/vionsec/vion-cli/issues"
+    "url": "https://github.com/jvncodez/VionSecurityAgent/issues"
   },
   "type": "module",
   "bin": {

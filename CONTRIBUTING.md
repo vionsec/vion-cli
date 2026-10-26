@@ -1,5 +1,9 @@
 # Contribuindo com o VION
 
+Issues e PRs de sugestão vão em [jvncodez/VionSecurityAgent](https://github.com/jvncodez/VionSecurityAgent). Só o mantenedor publica no npm.
+
+Para mexer no código-fonte completo (testes, UI em React, scripts):
+
 1. `npm install`, `npm run build:ui` e `npm test` devem passar.
 2. **Comandos do CLI**: edite `src/cli/registry.js` (a ajuda e o `docs/COMMANDS.md` saem de la) e crie `src/cli/commands/<nome>.js` exportando `run({ positionals, values })`.
 3. **Skills**:

@@ -107,26 +107,25 @@ vion config set retention.days 180   # retenção automática
 
 ## O que é local e o que não é
 
-- **Código:** MIT, este repositório.
+- **Código:** MIT, em [jvncodez/VionSecurityAgent](https://github.com/jvncodez/VionSecurityAgent).
 - **Execução, interface e armazenamento:** 100% na sua máquina.
 - **Modelos de IA:** os agentes rodam no Claude Code e usam a sua conta Anthropic (com o custo correspondente). O VION não envia dados a nenhum serviço próprio. Os analisadores determinísticos funcionam offline.
 - **Rede:** só o que a skill pede e o escopo permite, por exemplo `npm audit`, que consulta o registro npm.
 
-## Desenvolvimento
+## Instalar direto do GitHub
+
+Sem passar pelo npm, com o mesmo conteúdo publicado:
 
 ```bash
-git clone <repo> && cd vion && npm install
-npm run build:ui     # compila a UI em dist/ui
-npm test             # analisadores, escopo, hook, store, servidor, CLI
-npm run gen:docs     # regenera skills geradas, frontmatter e docs/COMMANDS.md
-node bin/vion.js help
+npm install -g github:jvncodez/VionSecurityAgent
+vion init
 ```
 
-Fontes únicas:
-- `src/cli/registry.js`: comandos e ajuda;
-- `src/cli/skills-meta.js`: metadados das skills;
-- `assets/templates/orquestrador.md`: protocolo do orquestrador;
-- `assets/agents/*.md`: subagentes.
+Para testar uma mudança sua antes de abrir o PR: clone o repositório, rode `npm install -g .` dentro dele e depois `vion doctor`.
+
+## Sugestões, issues e PRs
+
+O pacote no npm é publicado só pelo mantenedor. Sugestões de mudança, bugs e ideias vão em **[github.com/jvncodez/VionSecurityAgent](https://github.com/jvncodez/VionSecurityAgent)**: abra uma issue ou um PR lá. O mantenedor revisa e, se aprovar, a mudança entra na próxima versão publicada.
 
 Veja [CONTRIBUTING.md](CONTRIBUTING.md).
 

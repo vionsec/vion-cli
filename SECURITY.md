@@ -2,7 +2,7 @@
 
 ## Reportar uma vulnerabilidade no VION
 
-Não abra issue pública. Use o **Private vulnerability reporting** do GitHub (aba Security do repositório) com:
+Não abra issue pública. Use o **Private vulnerability reporting** do GitHub (aba Security de [jvncodez/VionSecurityAgent](https://github.com/jvncodez/VionSecurityAgent/security)) com:
 - versão (`vion --version`) e sistema operacional;
 - passos para reproduzir;
 - impacto esperado.
