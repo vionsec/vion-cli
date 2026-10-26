@@ -121,7 +121,7 @@ npm install -g github:jvncodez/VionSecurityAgent
 vion init
 ```
 
-Para testar uma mudança sua antes de abrir o PR: clone o repositório, rode `npm install -g .` dentro dele e depois `vion doctor`.
+Para testar uma mudança sua antes de abrir o PR: clone o repositório e, dentro dele, rode `npm install --omit=dev`, depois `npm install -g .` e `vion doctor`.
 
 ## Sugestões, issues e PRs
 
