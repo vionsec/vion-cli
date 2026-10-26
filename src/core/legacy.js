@@ -1,7 +1,6 @@
-// ── Migracao do @vionsec/cli <= 0.6 (versao SaaS) ──
-// A versao antiga guardava credenciais da API em ~/.vion e deixava um daemon
-// (fix-watcher) consultando o servidor. Ao atualizar, paramos o daemon e
-// renomeamos a pasta (nada e apagado).
+// ── Instalacoes anteriores (@vionsec/cli <= 0.6) ──
+// Elas guardavam credenciais em ~/.vion e deixavam um daemon (fix-watcher)
+// rodando. Ao instalar, paramos o daemon e renomeamos a pasta (nada e apagado).
 
 import fs from 'node:fs'
 import os from 'node:os'
@@ -49,24 +48,24 @@ export function migrateLegacy({ dryRun = false } = {}) {
   if (!legacy) return { legacy: null, actions: [] }
   const actions = []
   if (legacy.watcherRunning) {
-    actions.push(`legado: parando o fix-watcher do CLI antigo (PID ${legacy.watcherPid})`)
+    actions.push(`anterior: parando o fix-watcher de uma instalacao anterior (PID ${legacy.watcherPid})`)
     if (!dryRun) {
       try {
         process.kill(legacy.watcherPid)
       } catch (err) {
-        actions.push(`legado: nao consegui parar o PID ${legacy.watcherPid} (${err.code}); encerre manualmente`)
+        actions.push(`anterior: nao consegui parar o PID ${legacy.watcherPid} (${err.code}); encerre manualmente`)
       }
     }
   }
   const d = new Date()
   const p = n => String(n).padStart(2, '0')
   const dest = `${legacy.dir}.legacy-${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`
-  actions.push(`legado: ${legacy.dir} -> ${dest}${legacy.credentials ? ' (contem a API key da versao SaaS; apague quando quiser)' : ''}`)
+  actions.push(`anterior: ${legacy.dir} -> ${dest}${legacy.credentials ? ' (contem credenciais antigas; apague quando quiser)' : ''}`)
   if (!dryRun) {
     try {
       fs.renameSync(legacy.dir, dest)
     } catch (err) {
-      actions.push(`legado: nao consegui mover (${err.code}); a pasta antiga nao e usada por esta versao`)
+      actions.push(`anterior: nao consegui mover (${err.code}); a pasta antiga nao e usada por esta versao`)
     }
   }
   return { legacy, actions }

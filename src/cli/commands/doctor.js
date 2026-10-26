@@ -66,7 +66,7 @@ export async function run({ values }) {
   }
 
   const legacy = detectLegacy()
-  if (legacy) add('warn', 'Restos do CLI antigo (SaaS)', `${legacy.dir}${legacy.watcherRunning ? `, fix-watcher rodando (PID ${legacy.watcherPid})` : ''}`, 'Rode `vion init`: ele para o fix-watcher e renomeia a pasta antiga.')
+  if (legacy) add('warn', 'Instalacao anterior do VION', `${legacy.dir}${legacy.watcherRunning ? `, fix-watcher rodando (PID ${legacy.watcherPid})` : ''}`, 'Rode `vion init`: ele para o fix-watcher e renomeia a pasta antiga.')
 
   if (/[\\/]_npx[\\/]/.test(PKG_ROOT)) add('warn', 'Execucao via npx', PKG_ROOT, 'O cache do npx e temporario. Instale com `npm i -g @vionsec/cli` e rode `vion init` de novo.')
 

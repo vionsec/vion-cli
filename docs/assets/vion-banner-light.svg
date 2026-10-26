@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="560" viewBox="0 0 1280 560" role="img" aria-label="VION">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <g font-family="'Cascadia Mono', Consolas, Menlo, 'DejaVu Sans Mono', 'Liberation Mono', monospace" font-size="67" fill="url(#g)">
+    <text x="190" y="78" textLength="900" lengthAdjust="spacingAndGlyphs" xml:space="preserve"> ██╗   ██╗██╗ ██████╗ ███╗   ██╗</text>
+    <text x="190" y="142" textLength="900" lengthAdjust="spacingAndGlyphs" xml:space="preserve"> ██║   ██║██║██╔═══██╗████╗  ██║</text>
+    <text x="190" y="206" textLength="900" lengthAdjust="spacingAndGlyphs" xml:space="preserve"> ██║   ██║██║██║   ██║██╔██╗ ██║</text>
+    <text x="190" y="270" textLength="900" lengthAdjust="spacingAndGlyphs" xml:space="preserve"> ╚██╗ ██╔╝██║██║   ██║██║╚██╗██║</text>
+    <text x="190" y="334" textLength="900" lengthAdjust="spacingAndGlyphs" xml:space="preserve">  ╚████╔╝ ██║╚██████╔╝██║ ╚████║</text>
+    <text x="190" y="398" textLength="900" lengthAdjust="spacingAndGlyphs" xml:space="preserve">   ╚═══╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝</text>
+  </g>
+  <text x="640" y="496" text-anchor="middle" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="38" font-weight="700" fill="#0F172A">Vulnerable Investigator Orchestrator Network</text>
+  <text x="640" y="548" text-anchor="middle" font-family="'Cascadia Mono', Consolas, Menlo, monospace" font-size="24" letter-spacing="3" fill="#475569">open source · local-first · multiagente</text>
+</svg>
