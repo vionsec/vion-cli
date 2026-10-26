@@ -136,22 +136,12 @@ vion report <id> --format html
 
 ## 🧠 Como funciona
 
-```mermaid
-flowchart TD
-    A["vion audit · UI · /vion:auditoria"] --> B{"Escopo autorizado?"}
-    B -- não --> X["Bloqueado pelo motor"]
-    B -- sim --> C["Analisadores determinísticos<br/><i>0 tokens</i>"]
-    C --> O["Orquestrador<br/><b>Opus</b>"]
-    O --> R["vion-recon<br/>Haiku · stack e superfície"]
-    O --> V["vion-vuln × N<br/>Sonnet · uma checklist cada"]
-    O --> T["vion-threat-intel<br/>Haiku · dependências e CVEs"]
-    R & V & T --> I["vion-investigador<br/>Sonnet · valida com evidência"]
-    I --> K["vion-correlacao<br/>Haiku · duplicatas e conflitos"]
-    K --> RV["Revisão crítica<br/><b>Opus</b>"]
-    RV --> REL["vion-relatorio<br/>Haiku · resumo executivo"]
-    REL --> DB[("Banco local<br/>SQLite + evidências")]
-    DB --> UI["Interface local e relatórios<br/>HTML · Markdown · JSON"]
-```
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/vion-flow-dark.svg">
+    <img alt="Fluxo de uma auditoria: escopo, analisadores, orquestrador Opus, subagentes Sonnet e Haiku, validação, correlação, revisão e relatório" src="docs/assets/vion-flow-light.svg" width="760">
+  </picture>
+</p>
 
 | Agente | Modelo padrão | Papel |
 |---|---|---|

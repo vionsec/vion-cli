@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1108" viewBox="0 0 1000 1108" role="img" aria-label="Fluxo de uma auditoria do VION" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif">
+<rect width="1000" height="1108" rx="16" fill="#ffffff"/>
+<rect x="270" y="30" width="460" height="56" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="65" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">vion audit  ·  vion ui  ·  /vion:auditoria</text>
+<rect x="220" y="120" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="151" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">Escopo autorizado</text>
+<text x="500" y="176" text-anchor="middle" font-size="14.5" fill="#59636e">o hook bloqueia rede, leitura e escrita fora dele</text>
+<rect x="709" y="108" width="61" height="24" rx="12" fill="#8c959f"/><text x="739.5" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">motor</text>
+<path d="M500 86 C500 103 500 103 500 112" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 110 L500 120 L506 110 Z" fill="#8c959f"/>
+<rect x="220" y="228" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="259" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">Analisadores determinísticos</text>
+<text x="500" y="284" text-anchor="middle" font-size="14.5" fill="#59636e">segredos · taint · IaC · cripto · BOLA · dependências</text>
+<rect x="684.4" y="216" width="85.6" height="24" rx="12" fill="#16a34a"/><text x="727.2" y="233" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">0 tokens</text>
+<path d="M500 194 C500 211 500 211 500 220" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 218 L500 228 L506 218 Z" fill="#8c959f"/>
+<rect x="220" y="336" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#2563eb" stroke-width="2.5"/>
+<text x="500" y="367" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">Orquestrador</text>
+<text x="500" y="392" text-anchor="middle" font-size="14.5" fill="#59636e">planeja e delega; lê só resumos e IDs</text>
+<rect x="717.2" y="324" width="52.8" height="24" rx="12" fill="#2563eb"/><text x="743.6" y="341" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Opus</text>
+<path d="M500 302 C500 319 500 319 500 328" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 326 L500 336 L506 326 Z" fill="#8c959f"/>
+<rect x="35" y="454" width="290" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="180" y="485" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">vion-recon</text>
+<text x="180" y="510" text-anchor="middle" font-size="14.5" fill="#59636e">stack e superfície</text>
+<rect x="254" y="442" width="61" height="24" rx="12" fill="#8c959f"/><text x="284.5" y="459" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Haiku</text>
+<rect x="355" y="454" width="290" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="485" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">vion-vuln × N</text>
+<text x="500" y="510" text-anchor="middle" font-size="14.5" fill="#59636e">uma checklist cada, em paralelo</text>
+<rect x="565.8" y="442" width="69.19999999999999" height="24" rx="12" fill="#0891b2"/><text x="600.4" y="459" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Sonnet</text>
+<rect x="675" y="454" width="290" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="820" y="485" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">vion-threat-intel</text>
+<text x="820" y="510" text-anchor="middle" font-size="14.5" fill="#59636e">CVE e GHSA</text>
+<rect x="894" y="442" width="61" height="24" rx="12" fill="#8c959f"/><text x="924.5" y="459" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Haiku</text>
+<path d="M500 410 C500 432 180 432 180 446" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M174 444 L180 454 L186 444 Z" fill="#8c959f"/>
+<path d="M500 410 C500 432 500 432 500 446" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 444 L500 454 L506 444 Z" fill="#8c959f"/>
+<path d="M500 410 C500 432 820 432 820 446" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M814 444 L820 454 L826 444 Z" fill="#8c959f"/>
+<rect x="220" y="572" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="603" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">vion-investigador</text>
+<text x="500" y="628" text-anchor="middle" font-size="14.5" fill="#59636e">valida suspeitas: confirma com evidência ou descarta</text>
+<rect x="700.8" y="560" width="69.19999999999999" height="24" rx="12" fill="#0891b2"/><text x="735.4" y="577" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Sonnet</text>
+<path d="M180 528 C180 550 500 550 500 564" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 562 L500 572 L506 562 Z" fill="#8c959f"/>
+<path d="M500 528 C500 550 500 550 500 564" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 562 L500 572 L506 562 Z" fill="#8c959f"/>
+<path d="M820 528 C820 550 500 550 500 564" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 562 L500 572 L506 562 Z" fill="#8c959f"/>
+<rect x="220" y="680" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="711" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">vion-correlacao</text>
+<text x="500" y="736" text-anchor="middle" font-size="14.5" fill="#59636e">quase-duplicatas e conflitos</text>
+<rect x="709" y="668" width="61" height="24" rx="12" fill="#8c959f"/><text x="739.5" y="685" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Haiku</text>
+<path d="M500 646 C500 663 500 663 500 672" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 670 L500 680 L506 670 Z" fill="#8c959f"/>
+<rect x="220" y="788" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#2563eb" stroke-width="2.5"/>
+<text x="500" y="819" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">Revisão crítica</text>
+<text x="500" y="844" text-anchor="middle" font-size="14.5" fill="#59636e">severidade e evidência dos achados críticos</text>
+<rect x="717.2" y="776" width="52.8" height="24" rx="12" fill="#2563eb"/><text x="743.6" y="793" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Opus</text>
+<path d="M500 754 C500 771 500 771 500 780" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 778 L500 788 L506 778 Z" fill="#8c959f"/>
+<rect x="220" y="896" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="927" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">vion-relatorio</text>
+<text x="500" y="952" text-anchor="middle" font-size="14.5" fill="#59636e">resumo executivo</text>
+<rect x="709" y="884" width="61" height="24" rx="12" fill="#8c959f"/><text x="739.5" y="901" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Haiku</text>
+<path d="M500 862 C500 879 500 879 500 888" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 886 L500 896 L506 886 Z" fill="#8c959f"/>
+<rect x="220" y="1004" width="560" height="74" rx="12" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="500" y="1035" text-anchor="middle" font-size="19" font-weight="700" fill="#1f2328">Banco local  →  interface e relatórios</text>
+<text x="500" y="1060" text-anchor="middle" font-size="14.5" fill="#59636e">SQLite + evidências com sha256 · HTML · Markdown · JSON</text>
+<path d="M500 970 C500 987 500 987 500 996" fill="none" stroke="#8c959f" stroke-width="2"/><path d="M494 994 L500 1004 L506 994 Z" fill="#8c959f"/>
+</svg>
